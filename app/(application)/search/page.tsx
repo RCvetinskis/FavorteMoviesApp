@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SearchPage = async ({ searchParams }: Props) => {
-  const { q, category = "all", page = "1" } = searchParams;
+  const { q, category = "multi", page = "1" } = searchParams;
 
   const data: MovieApiResponse = await getSearchResults(q, category, page);
 

@@ -5,14 +5,10 @@ import {
 } from "@/actions/tmdb api/getRequests";
 import CarouselContainer from "@/components/carousel-container";
 import { MovieApiResponse } from "@/types";
-import ToggleDate from "./_components/toggle-date";
-import { useSetDate } from "@/store/store";
 import TrendingContainer from "./_components/trending-container";
 
-type Props = {};
-
-const HomePage = async (props: Props) => {
-  const popularMovies: MovieApiResponse = await getPopularMovies();
+const HomePage = async () => {
+  const popularMovies: MovieApiResponse = await getPopularMovies("1");
   const topRatedMovies: MovieApiResponse = await getTopRatedMovies();
 
   const trending: MovieApiResponse = await getTrending("day");

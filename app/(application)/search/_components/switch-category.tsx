@@ -24,7 +24,7 @@ const SwtichCategory = () => {
               onClick={() => handleClick(category)}
               variant={
                 categoryParam?.toLowerCase() === category.toLocaleLowerCase()
-                  ? "outline"
+                  ? "shimmer"
                   : "secondary"
               }
             >
