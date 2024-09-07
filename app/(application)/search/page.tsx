@@ -16,6 +16,7 @@ const SearchPage = async ({ searchParams }: Props) => {
   const { q, category = "multi", page = "1" } = searchParams;
 
   const data: MovieApiResponse = await getSearchResults(q, category, page);
+  const totalPages = Math.min(data.total_pages, 500);
 
   return (
     <div className="w-full space-y-6">
@@ -32,7 +33,7 @@ const SearchPage = async ({ searchParams }: Props) => {
       </main>
 
       <footer className="py-6">
-        <PaginationContainer totalPages={data.total_pages} />
+        <PaginationContainer totalPages={totalPages} />
       </footer>
     </div>
   );

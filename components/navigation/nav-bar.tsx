@@ -11,8 +11,8 @@ const NavBar = () => {
 
   const isMdSize = useMediaQuery("(max-width: 1054px)");
   const routes = useRoutes();
-  const homeRoute = routes[0];
-  const otherRoutes = routes.slice(1);
+  const leftRoutes = routes.slice(0, 3);
+  const rightRoutes = routes.slice(3);
   const SearchComponent = isMdSize ? SearchOpen : Search;
 
   useEffect(() => {
@@ -23,8 +23,10 @@ const NavBar = () => {
     return (
       <nav className="fixed top-0 w-full py-3 px-2 lg:px-6 lg:h-16 h-fit z-50  shadow-2xl bg-primary-foreground ">
         <div className="flex justify-between items-center w-full">
-          <div className="flex items-center">
-            <NavItemSkeleton />
+          <div className="flex items-center  lg:space-x-6 space-x-2">
+            {[...Array(3)].map((_, i) => (
+              <NavItemSkeleton key={i} />
+            ))}
           </div>
           <div className="flex-grow flex justify-center">
             <SearchSkeleton />
@@ -41,10 +43,12 @@ const NavBar = () => {
   }
   return (
     <nav className="fixed top-0 w-full py-3 px-2 lg:px-6 lg:h-16 h-fit z-50 shadow-2xl bg-primary-foreground ">
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between items-center w-full ">
         {/* left section */}
-        <div className="flex items-center">
-          <NavItem route={homeRoute} />
+        <div className="flex items-center  lg:space-x-6 space-x-2">
+          {leftRoutes.map((route) => (
+            <NavItem key={route.label} route={route} />
+          ))}
         </div>
 
         {/* middle section */}
@@ -54,7 +58,7 @@ const NavBar = () => {
 
         {/* Right Section - Other Routes */}
         <div className="flex items-center  lg:space-x-6 space-x-2">
-          {otherRoutes.map((route) => (
+          {rightRoutes.map((route) => (
             <NavItem key={route.label} route={route} />
           ))}
         </div>

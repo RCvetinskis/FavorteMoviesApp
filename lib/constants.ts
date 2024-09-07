@@ -1,4 +1,4 @@
-export const tmdbImageUrl = "https://image.tmdb.org/t/p/w300/";
+export const tmdbImageUrl = "https://image.tmdb.org/t/p/w500/";
 
 export const categories = ["multi", "movie", "tv", "person"];
 
@@ -70,5 +70,43 @@ export const sortTvOptions = [
   {
     value: "name.desc",
     label: "Title (Z-A)",
+  },
+];
+
+// navigation options for dropdownmenu
+export const movieNavOpts = [
+  {
+    value: "/movie",
+    label: "Popular",
+  },
+  {
+    value: "/movie/now_playing",
+    label: "Now Playing",
+  },
+  {
+    value: "/movie/upcoming",
+    label: "Upcoming",
+  },
+  {
+    value: "/movie/top_rated",
+    label: "Top Rated",
+  },
+];
+export const tvNavOpts = [
+  {
+    value: "/tv/",
+    label: "Popular",
+  },
+  {
+    value: "/tv/airing_today",
+    label: "Airing today",
+  },
+  {
+    value: "/tv/on_the_air",
+    label: "On The Air",
+  },
+  {
+    value: "/tv/top_rated",
+    label: "Top Rated",
   },
 ];

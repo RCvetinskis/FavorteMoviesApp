@@ -7,11 +7,11 @@ type Props = {
 const MoviesAndTvLayout = ({ children }: Props) => {
   return (
     <div className="flex ">
-      <aside className="hidden md:block w-[300px]">
+      <aside className="hidden md:block w-[320px]">
         <SideBar />
       </aside>
 
-      <main className="flex-1  p-4">{children}</main>
+      <main className="flex-1  px-4">{children}</main>
     </div>
   );
 };

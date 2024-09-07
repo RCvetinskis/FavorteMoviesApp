@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { tmdbImageUrl } from "@/lib/constants";
 import Image from "next/image";
 import RatingComponent from "../rating-component";
+import { Skeleton } from "../ui/skeleton";
 type Props = {
   item: any;
 };
@@ -12,7 +13,7 @@ const MainCard = ({ item }: Props) => {
   const image = item.backdrop_path
     ? `${tmdbImageUrl}${item.backdrop_path}`
     : "/assets/no_image.jpg";
-  const title = item.media_type === "tv" ? item.name : item.title;
+  const title = item.name ? item.name : item.title;
 
   return (
     <Card>
@@ -20,9 +21,9 @@ const MainCard = ({ item }: Props) => {
         <Image
           src={image}
           alt="TMDB poster"
-          width={1000}
-          height={1000}
-          className="rounded-lg aspect-auto object-contain "
+          width={500}
+          height={500}
+          className="rounded-lg aspect-auto w-full object-contain "
           loading="lazy"
         />
         <div className="absolute right-0 bottom-0">
@@ -38,3 +39,9 @@ const MainCard = ({ item }: Props) => {
 };
 
 export default MainCard;
+
+export const MainCardSkeleton = () => {
+  return (
+    <Skeleton className="rounded-xl w-[200px] md:w-[240px] h-[180px] bg-gray-500" />
+  );
+};

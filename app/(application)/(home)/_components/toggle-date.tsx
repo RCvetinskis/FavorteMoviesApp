@@ -1,6 +1,8 @@
 "use client";
 
+import BtnSkeleton from "@/components/skeletons/btn-skeleton";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useSetDate } from "@/store/store";
 
 const ToggleDate = () => {
@@ -30,3 +32,12 @@ const ToggleDate = () => {
 };
 
 export default ToggleDate;
+
+export const ToggleDateSkeleton = () => {
+  return (
+    <div className="w-44 flex">
+      <BtnSkeleton />
+      <BtnSkeleton />
+    </div>
+  );
+};
