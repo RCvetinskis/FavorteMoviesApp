@@ -9,7 +9,7 @@ type Props = {
 };
 
 const GenresContainer = ({ type }: Props) => {
-  const [genres, setGenres] = useState<Genre[] | []>([]);
+  const [data, setData] = useState<Genre[] | []>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const GenresContainer = ({ type }: Props) => {
     setLoading(true);
     getGenres(type)
       .then((res) => {
-        setGenres(res.genres);
+        setData(res.genres);
       })
       .catch((err) => {
         console.error(err);
@@ -36,10 +36,10 @@ const GenresContainer = ({ type }: Props) => {
       ) : (
         <div>
           <h2 className="my-2 font-semibold">Genres</h2>
-          {genres.length > 0 ? (
-            <div className="flex flex-wrap gap-3">
-              {genres.map((genre) => (
-                <GenreItem key={genre.id} genre={genre} />
+          {data.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {data.map((item) => (
+                <GenreItem key={item.id} genre={item} />
               ))}
             </div>
           ) : (

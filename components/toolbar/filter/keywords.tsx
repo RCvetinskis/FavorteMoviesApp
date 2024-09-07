@@ -1,38 +1,33 @@
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-
 import React, { useEffect, useState } from "react";
 import { getKeyWords } from "@/actions/tmdb api/getRequests";
 import { KeyWordType } from "@/types";
 import { toast } from "sonner";
 import { useDebounce } from "@/hooks/useDebounce";
-import { X } from "lucide-react";
+import { X, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useSearchFilterStore } from "@/store/store-filter-search";
 
 const KeyWords = () => {
+  // querys input for fetch data
   const [query, setQuery] = useState("");
-  const [value, setValue] = useState("");
+  // fetch results
   const [results, setResults] = useState<KeyWordType[] | []>([]);
   const [loading, setLoading] = useState(false);
+  // Control drawer visibility
+  const [showDrawer, setShowDrawer] = useState(false);
 
-  const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setQuery(value);
-    setValue(value);
-  };
+  // global state
+  const { setKeyword } = useSearchFilterStore();
+
   const debouncedQuery = useDebounce(query, 500);
+
   useEffect(() => {
-    if (!query) return;
+    if (!debouncedQuery) return;
 
     setLoading(true);
 
-    getKeyWords(query)
+    getKeyWords(debouncedQuery)
       .then((res) => {
         setResults(res.results);
       })
@@ -45,56 +40,78 @@ const KeyWords = () => {
       });
   }, [debouncedQuery]);
 
+  const handleKeywordSelect = (keyword: KeyWordType) => {
+    setKeyword(keyword);
+    setQuery(keyword.name);
+    setShowDrawer(false);
+  };
+
   const handleClear = () => {
-    setValue("");
     setQuery("");
+    setKeyword(undefined);
+    setShowDrawer(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setShowDrawer(true);
   };
 
   return (
-    <Command onChange={handleKeywords}>
-      <h2 className="my-2 font-semibold">Key Words</h2>
-      <div className="relative">
-        <CommandInput value={value} />
+    <div className="relative">
+      <h2 className="my-2  font-semibold">Keywords</h2>
+      <section className="relative">
+        <Input
+          value={query}
+          onChange={handleInputChange}
+          className="px-7"
+          type="text"
+        />
 
-        {value && (
+        <SearchIcon className="absolute top-2 left-2" size={18} />
+        {query && (
           <Button
             onClick={handleClear}
-            className="absolute right-0 top-0"
+            className="absolute top-0 right-0"
             variant={"ghost"}
             size={"icon"}
           >
             <X size={18} />
           </Button>
         )}
-      </div>
+      </section>
 
-      <CommandList
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          query ? "h-[10svh] overflow-y-auto  opacity-100" : "max-h-0 opacity-0"
+      <div
+        className={`overflow-hidden border rounded-lg transition-all duration-500 ease-in-out ${
+          showDrawer
+            ? "h-[15svh] overflow-y-auto opacity-100"
+            : "max-h-0 opacity-0"
         }`}
       >
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup>
-              {results.map((item) => (
-                <CommandItem
-                  value={item.name}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                  }}
-                  key={item.id}
-                >
-                  {item.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {results.length > 0 ? (
+              <div className="grid grid-cols-1 gap-1">
+                {results.map((item) => (
+                  <Button
+                    onClick={() => handleKeywordSelect(item)}
+                    className="justify-start"
+                    key={item.id}
+                    variant={"ghost"}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-secondary-foreground p-4">No results found.</p>
+            )}
           </>
         )}
-      </CommandList>
-    </Command>
+      </div>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import MainCard from "./cards/main-card";
+import MainCard, { MainCardSkeleton } from "./cards/main-card";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 type Props = {
@@ -45,3 +45,13 @@ const CarouselContainer = ({ results }: Props) => {
 };
 
 export default CarouselContainer;
+
+export const CarouselContainerSkeleton = () => {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      {[...Array(6)].map((_, i) => (
+        <MainCardSkeleton key={i} />
+      ))}
+    </div>
+  );
+};

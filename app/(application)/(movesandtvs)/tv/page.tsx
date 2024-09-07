@@ -1,4 +1,4 @@
-import MoviePageContent from "../_components/movie-page-content";
+import TvPageContent from "../_components/tv-page-content";
 
 type Props = {
   searchParams: {
@@ -13,8 +13,8 @@ type Props = {
     sort_by?: string;
   };
 };
-const MoviesPage = async ({ searchParams }: Props) => {
-  return <MoviePageContent searchParams={searchParams} category="popular" />;
+const TvPage = async ({ searchParams }: Props) => {
+  return <TvPageContent searchParams={searchParams} category="popular" />;
 };
 
-export default MoviesPage;
+export default TvPage;

@@ -4,19 +4,28 @@ import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { useSearchFilterStore } from "@/store/store-filter-search";
 
 export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const { setReleaseDateFrom, setReleaseDateTo } = useSearchFilterStore();
   const [manualDate, setManualDate] = React.useState({
-    from: format(new Date(1900), "yyyy-MM-dd"),
-    to: format(addDays(Date.now(), 20), "yyyy-MM-dd"),
+    from: "",
+    to: "",
   });
 
   // Function to handle manual input change and update state
   const handleManualDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setManualDate((prev) => ({ ...prev, [name]: value }));
+
+    // Update the global store when the dates change
+    if (name === "from") {
+      setReleaseDateFrom(value);
+    } else {
+      setReleaseDateTo(value);
+    }
   };
 
   return (

@@ -1,5 +1,7 @@
 "use client";
 
+import NavMovie from "@/components/navigation/nav-movie";
+import NavTv from "@/components/navigation/nav-tv";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Route } from "@/types";
 import { Home } from "lucide-react";
@@ -13,6 +15,18 @@ const useRoutes = () => {
       label: "Home",
       active: pathname === "/",
       Component: Home,
+    },
+    {
+      href: undefined,
+      label: "Movie",
+      active: undefined,
+      Component: NavMovie,
+    },
+    {
+      href: undefined,
+      label: "Tv",
+      active: undefined,
+      Component: NavTv,
     },
     {
       href: undefined,

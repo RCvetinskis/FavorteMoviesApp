@@ -1,6 +1,8 @@
 import { Route } from "@/types";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
+import HoverLabel from "../hover-label";
+import { Button } from "../ui/button";
 
 type Props = {
   route: Route;
@@ -8,19 +10,18 @@ type Props = {
 
 const NavItem = ({ route }: Props) => {
   const Component = route.Component;
-
   return (
-    <div>
-      {route.href ? (
-        <Link href={route.href}>
-          <Component />
-        </Link>
-      ) : (
-        <>
+    <HoverLabel align="end" asChild label={route.label}>
+      <div>
+        {route.href ? (
+          <Link href={route.href}>
+            <Component className="w-6 h-6" />
+          </Link>
+        ) : (
           <Component className="w-6 h-6" />
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </HoverLabel>
   );
 };
 

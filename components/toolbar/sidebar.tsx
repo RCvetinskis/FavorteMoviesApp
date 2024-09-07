@@ -1,22 +1,18 @@
 "use client";
-import React from "react";
 import Sort from "./sort";
 import { usePathname } from "next/navigation";
 import Filters from "./filter/filters";
-import { Button } from "../ui/button";
+import ActionFilterSearch from "../clientActions/action-filter-search";
 
 const SideBar = () => {
   const pathname = usePathname();
-  const type = pathname.replace(/\//g, "");
+  const type = pathname.split("/")[1] || "";
 
   return (
     <div className=" space-y-4">
       <Filters type={type} />
       <Sort type={type} />
-
-      <Button size={"lg"} variant={"shimmer"} className="w-full">
-        Search
-      </Button>
+      <ActionFilterSearch type={type} />
     </div>
   );
 };

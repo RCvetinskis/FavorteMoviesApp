@@ -1,4 +1,3 @@
-import React from "react";
 import { CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -11,12 +10,14 @@ import {
 import { SortOptions } from "@/types";
 import OpenDrawer from "./open-drawer";
 import { sortMovieOptions, sortTvOptions } from "@/lib/constants";
+import { useSearchFilterStore } from "@/store/store-filter-search";
 
 type Props = {
   type: string;
 };
 
 const Sort = ({ type }: Props) => {
+  const { setSortBy } = useSearchFilterStore();
   let sortOptions: SortOptions[] = [];
   if (type.includes("movie")) {
     sortOptions = sortMovieOptions;
@@ -28,7 +29,7 @@ const Sort = ({ type }: Props) => {
   return (
     <OpenDrawer title="Sort">
       <CardContent className="p-2 pb-4">
-        <Select>
+        <Select onValueChange={(value) => setSortBy(value)}>
           <SelectTrigger>
             <SelectValue placeholder="Sort Results By" />
           </SelectTrigger>

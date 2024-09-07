@@ -19,19 +19,20 @@ import {
 import { getLanguages } from "@/actions/tmdb api/getRequests";
 import { Language } from "@/types";
 import { toast } from "sonner";
+import { useSearchFilterStore } from "@/store/store-filter-search";
 
 const Languages = () => {
-  const [languages, setLanguages] = useState<Language[] | []>([]);
+  const [data, setData] = useState<Language[] | []>([]);
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const { language, setLanguage } = useSearchFilterStore();
 
   useEffect(() => {
     setLoading(true);
     getLanguages()
       .then((res) => {
-        setLanguages(res);
+        setData(res);
       })
       .catch((err) => {
         console.error(err);
@@ -42,6 +43,13 @@ const Languages = () => {
       });
   }, []);
 
+  const selectedLanguageIso = (englishName: string): string => {
+    const foundLanguage = data.find(
+      (item) => item.english_name === englishName
+    );
+
+    return foundLanguage ? foundLanguage.iso_639_1 : "";
+  };
   return (
     <div>
       <h2 className="my-2 font-semibold">Languages</h2>
@@ -56,9 +64,8 @@ const Languages = () => {
               aria-expanded={open}
               className="w-full justify-between"
             >
-              {value
-                ? languages.find((language) => language.iso_639_1 === value)
-                    ?.english_name
+              {language
+                ? data.find((item) => language === item.iso_639_1)?.english_name
                 : "Select Language"}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -69,24 +76,24 @@ const Languages = () => {
               <CommandList>
                 <CommandEmpty>No Language Found.</CommandEmpty>
                 <CommandGroup>
-                  {languages.map((language) => (
+                  {data.map((item) => (
                     <CommandItem
-                      key={language.iso_639_1}
-                      value={language.iso_639_1}
+                      key={item.iso_639_1}
+                      value={item.english_name}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
+                        setLanguage(selectedLanguageIso(currentValue));
                         setOpen(false);
                       }}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === language.iso_639_1
+                          language === item.iso_639_1
                             ? "opacity-100"
                             : "opacity-0"
                         )}
                       />
-                      {language.english_name}
+                      {item.english_name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
